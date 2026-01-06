@@ -1,0 +1,362 @@
+/* --- 全局变量与重置（核心配色重构）--- */
+:root {
+    /* 新主色调：清新薄荷绿 */
+    --primary-color: #48c9b0; 
+    --primary-light: #6fe2cf; /* hover浅绿 */
+    --primary-dark: #36b59e;  /* 深绿（辅助） */
+    /* 背景与卡片 */
+    --bg-color: #f9fffe;      /* 极浅绿底 */
+    --card-bg: #ffffff;       
+    --card-border: #e8f8f5;   /* 卡片浅绿边框 */
+    /* 文字颜色 */
+    --text-color: #283739;    /* 深灰绿 */
+    --gray-text: #708685;     /* 浅灰绿 */
+    /* 功能色 */
+    --danger-color: #e74c3c;  /* 删除按钮 */
+    --like-color: #27ae60;    /* 点赞按钮 */
+    --error-color: #e74c3c;   
+    /* 阴影 */
+    --shadow: 0 4px 12px rgba(72, 201, 176, 0.06); 
+    --shadow-hover: 0 8px 20px rgba(72, 201, 176, 0.12);
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+    font-family: "Microsoft YaHei", "PingFang SC", "Hiragino Sans GB", sans-serif;
+    background: linear-gradient(135deg, var(--bg-color), #f0fef9); 
+    color: var(--text-color);
+    line-height: 1.8;
+    min-height: 100vh;
+    padding-bottom: 20px;
+}
+
+/* --- 布局容器 --- */
+.container {
+    max-width: 820px;
+    margin: 0 auto;
+    padding: 0 16px;
+}
+
+/* --- 顶部导航 --- */
+.navbar {
+    background: linear-gradient(90deg, var(--primary-color), var(--primary-dark));
+    color: white;
+    padding: 1.4rem 0;
+    box-shadow: 0 3px 10px rgba(72, 201, 176, 0.18);
+    margin-bottom: 36px;
+}
+
+.navbar h1 {
+    font-size: 1.9rem;
+    letter-spacing: 1.2px;
+    font-weight: 600;
+}
+
+.subtitle {
+    font-size: 1rem;
+    font-weight: normal;
+    opacity: 0.92;
+    margin-left: 18px;
+    font-style: italic;
+}
+
+/* --- 发布输入卡片 --- */
+.input-card {
+    background: var(--card-bg);
+    border-radius: 20px;
+    padding: 28px;
+    box-shadow: var(--shadow);
+    margin-bottom: 36px;
+    border: 1px solid var(--card-border);
+}
+
+.input-card h3 {
+    margin-bottom: 22px;
+    color: var(--primary-dark);
+    font-size: 1.25rem;
+    border-left: 3px solid var(--primary-color);
+    padding-left: 10px;
+}
+
+/* 昵称输入项 */
+.input-item {
+    margin-bottom: 18px;
+}
+
+.input-item label {
+    display: block;
+    margin-bottom: 6px;
+    color: var(--gray-text);
+    font-size: 0.98rem;
+    font-weight: 500;
+}
+
+.input-item input {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid #d8ece9;
+    border-radius: 10px;
+    font-size: 1rem;
+    outline: none;
+    transition: all 0.3s;
+}
+
+.input-item input::placeholder {
+    color: #b2c9c7;
+    font-style: italic;
+}
+
+.input-item input:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(72, 201, 176, 0.1);
+}
+
+/* 文本框 */
+textarea {
+    width: 100%;
+    height: 130px;
+    padding: 14px 16px;
+    border: 1px solid #d8ece9;
+    border-radius: 10px;
+    resize: none;
+    font-size: 1rem;
+    outline: none;
+    transition: all 0.3s;
+}
+
+textarea::placeholder {
+    color: #b2c9c7;
+    font-style: italic;
+}
+
+textarea:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(72, 201, 176, 0.1);
+}
+
+/* 错误提示 */
+.error-tip {
+    height: 22px;
+    margin: 10px 0;
+    color: var(--error-color);
+    font-size: 0.95rem;
+    line-height: 22px;
+    transition: all 0.2s;
+}
+
+/* 操作栏 */
+.action-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 18px;
+}
+
+#charCount {
+    font-size: 0.95rem;
+    color: var(--gray-text);
+    font-weight: 500;
+}
+
+/* 发送按钮 */
+.btn-primary {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 11px 28px;
+    border-radius: 28px;
+    cursor: pointer;
+    font-size: 1.05rem;
+    font-weight: 500;
+    transition: all 0.3s;
+    box-shadow: 0 4px 10px rgba(72, 201, 176, 0.2);
+}
+
+.btn-primary:hover {
+    background-color: var(--primary-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(72, 201, 176, 0.25);
+}
+
+.btn-primary:disabled {
+    background-color: #b8e6dd;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+/* --- 留言列表区 --- */
+.list-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 22px;
+    align-items: center;
+}
+
+.list-header h2 {
+    color: var(--primary-dark);
+    font-size: 1.6rem;
+    font-weight: 600;
+}
+
+.refresh-tip {
+    font-size: 0.88rem;
+    color: var(--gray-text);
+}
+
+.refresh-tip::before {
+    content: "🔄";
+    margin-right: 4px;
+}
+
+.message-list {
+    list-style: none;
+}
+
+/* --- 单条留言卡片 --- */
+.message-card {
+    background: var(--card-bg);
+    border-radius: 16px;
+    padding: 22px;
+    margin-bottom: 22px;
+    box-shadow: var(--shadow);
+    border-left: 5px solid var(--primary-color);
+    animation: fadeIn 0.5s ease;
+    display: flex;
+    flex-direction: column;
+    transition: all 0.3s;
+    border: 1px solid var(--card-border);
+}
+
+.message-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-hover);
+    border-left-color: var(--primary-dark);
+}
+
+/* 昵称样式 */
+.msg-nickname {
+    font-size: 1rem;
+    color: var(--primary-dark);
+    margin-bottom: 10px;
+    font-weight: 600;
+}
+
+.msg-nickname::after {
+    content: "👤";
+    margin-left: 6px;
+    font-size: 0.9rem;
+}
+
+/* 留言内容 */
+.msg-content {
+    font-size: 1.12rem;
+    margin-bottom: 18px;
+    word-break: break-all;
+    line-height: 1.9;
+    color: var(--text-color);
+}
+
+/* 元数据区 */
+.msg-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.92rem;
+    color: var(--gray-text);
+    border-top: 1px solid #f0f9f7;
+    padding-top: 14px;
+}
+
+/* 点赞区域 */
+.like-area {
+    margin: 0 18px;
+}
+
+.btn-like {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: none;
+    border: none;
+    color: var(--like-color);
+    cursor: pointer;
+    font-size: 0.95rem;
+    transition: all 0.2s;
+    padding: 4px 8px;
+    border-radius: 6px;
+}
+
+.btn-like:hover {
+    color: #219653;
+    transform: scale(1.1);
+    background-color: rgba(39, 174, 96, 0.05);
+}
+
+/* 删除按钮 */
+.btn-delete {
+    color: var(--danger-color);
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 0.95rem;
+    opacity: 0;
+    transition: all 0.2s;
+    padding: 4px 8px;
+    border-radius: 6px;
+}
+
+.message-card:hover .btn-delete {
+    opacity: 1;
+}
+
+.btn-delete:hover {
+    text-decoration: underline;
+    color: #c0392b;
+    background-color: rgba(231, 76, 60, 0.05);
+}
+
+/* 底部页脚 */
+footer {
+    text-align: center;
+    color: var(--gray-text);
+    font-size: 0.98rem;
+    margin: 50px 0 20px;
+    padding-top: 20px;
+    border-top: 1px solid #e8f8f5;
+}
+
+/* 动画 */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* 响应式适配 */
+@media (max-width: 600px) {
+    .msg-meta {
+        flex-wrap: wrap;
+        gap: 12px;
+        justify-content: flex-start;
+    }
+    .like-area {
+        margin: 0 12px 0 0;
+    }
+    .btn-delete {
+        opacity: 1;
+    }
+    .message-card {
+        padding: 18px;
+        margin-bottom: 18px;
+    }
+    .input-card {
+        padding: 22px;
+    }
+}
